@@ -34,24 +34,22 @@ public final class RpcServer {
   private ExecutorService executorService;
 
   public RpcServer(Protocol<?, ?> protocol, int port) {
-    this(protocol, port, null, null, Runtime.getRuntime().availableProcessors());
+    this(protocol, port, null, Runtime.getRuntime().availableProcessors());
   }
 
   public RpcServer(Protocol<?, ?> protocol, int port, int workerThreadCount) {
-    this(protocol, port, null, null, workerThreadCount);
+    this(protocol, port, null, workerThreadCount);
   }
 
-  public RpcServer(Protocol<?, ?> protocol, int port, InputStream keyCertChainInputStream,
-      InputStream keyInputStream) {
-    this(protocol, port, null, null, Runtime.getRuntime().availableProcessors());
+  public RpcServer(Protocol<?, ?> protocol, int port, SslConfig sslConfig) {
+    this(protocol, port, sslConfig, Runtime.getRuntime().availableProcessors());
   }
 
-  public RpcServer(Protocol<?, ?> protocol, int port, InputStream keyCertChainInputStream,
-      InputStream keyInputStream, int workerThreadCount) {
+  public RpcServer(Protocol<?, ?> protocol, int port, SslConfig sslConfig, int workerThreadCount) {
     SslContext sslContext = null;
-    if (keyCertChainInputStream != null && keyInputStream != null) {
+    if (sslConfig != null) {
       try {
-        sslContext = SslContextBuilder.forServer(keyCertChainInputStream, keyInputStream).build();
+        sslContext = SslContextBuilder.forServer(sslConfig.getKeyCertChainInputStream(), sslConfig.getKeyInputStream()).build();
       } catch (SSLException e) {
         throw new IllegalStateException(e);
       }
