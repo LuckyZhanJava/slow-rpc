@@ -7,7 +7,6 @@ import com.lonicera.rpc.protocol.ObjectCodec;
 import com.lonicera.rpc.protocol.Protocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
@@ -25,7 +24,6 @@ import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.concurrent.CompletableFuture;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 
 @Slf4j
 public class HttpProtocol implements Protocol<HttpRpcRequest, HttpRpcResponse> {
@@ -37,7 +35,7 @@ public class HttpProtocol implements Protocol<HttpRpcRequest, HttpRpcResponse> {
   }
 
   public HttpProtocol() {
-    this(JacksonObjectMapper.objectMapperCodec());
+    this(new JsonObjectCodec());
   }
 
   @Override
@@ -113,7 +111,6 @@ public class HttpProtocol implements Protocol<HttpRpcRequest, HttpRpcResponse> {
     }
   }
 
-  @NotNull
   private HttpRpcResponse newRpcResponse(String correlationId,
       HttpResponseStatus status,
       ByteBuf byteBuf,

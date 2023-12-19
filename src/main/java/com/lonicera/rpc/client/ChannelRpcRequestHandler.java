@@ -22,7 +22,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
-import org.jetbrains.annotations.NotNull;
 
 class ChannelRpcRequestHandler extends ChannelDuplexHandler {
 
@@ -34,7 +33,7 @@ class ChannelRpcRequestHandler extends ChannelDuplexHandler {
       return new HashedWheelTimer(new ThreadFactory() {
 
         @Override
-        public Thread newThread(@NotNull Runnable r) {
+        public Thread newThread(Runnable r) {
           Thread t = new Thread(r);
           t.setDaemon(true);
           t.setName("timeout-thread-" + atomicLong.incrementAndGet());

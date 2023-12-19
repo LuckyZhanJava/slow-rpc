@@ -23,7 +23,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.jetbrains.annotations.NotNull;
 
 public class Client {
 
@@ -38,7 +37,7 @@ public class Client {
     private DefaultThreadFactory factory = new DefaultThreadFactory("rpc-client");
 
     @Override
-    public Thread newThread(@NotNull Runnable r) {
+    public Thread newThread(Runnable r) {
       Thread t = factory.newThread(r);
       t.setDaemon(true);
       return t;
