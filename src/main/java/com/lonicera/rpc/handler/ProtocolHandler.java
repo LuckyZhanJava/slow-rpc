@@ -60,10 +60,10 @@ class ProtocolHandler<REQ extends RpcRequest, RESP extends RpcResponse> implemen
             value = protocol.decodeReturnValue(invocation.getMethod(), resp);
             valueFuture.complete(value);
           } catch (Exception ex) {
-            if(e instanceof RpcException){
-              valueFuture.completeExceptionally(e);
+            if(ex instanceof RpcException){
+              valueFuture.completeExceptionally(ex);
             }else {
-              valueFuture.completeExceptionally(new RpcException(RpcException.CLIENT_ERROR, e));
+              valueFuture.completeExceptionally(new RpcException(RpcException.CLIENT_ERROR, ex));
             }
           }
 
