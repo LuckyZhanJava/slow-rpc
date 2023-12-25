@@ -52,14 +52,18 @@ public class RpcProxyFactory {
   }
 
   public <T> T getProxy(Class<T> clazz, String uri) {
-    return getProxy(clazz, CLIENT_OPTIONS, uri, REQUEST_OPTIONS, Collections.emptyList());
+    return getProxy(clazz, uri, CLIENT_OPTIONS);
   }
 
+  public <T> T getProxy(Class<T> clazz, String uri, ClientOptions clientOptions
+  ) {
+    return getProxy(clazz, uri, clientOptions, REQUEST_OPTIONS);
+  }
 
-  public <T> T getProxy(Class<T> clazz, ClientOptions clientOptions, String uri,
+  public <T> T getProxy(Class<T> clazz, String uri, ClientOptions clientOptions,
       RequestOptions requestOptions
   ) {
-    return getProxy(clazz, clientOptions, uri, requestOptions, Collections.emptyList());
+    return getProxy(clazz, uri, clientOptions, requestOptions, Collections.emptyList());
   }
 
   @AllArgsConstructor
@@ -70,7 +74,7 @@ public class RpcProxyFactory {
     String uri;
   }
 
-  public <T> T getProxy(Class<T> clazz, ClientOptions clientOptions, String uri,
+  public <T> T getProxy(Class<T> clazz, String uri, ClientOptions clientOptions,
       RequestOptions options,
       List<Handler> handlerList) {
     if (!clazz.isInterface()) {

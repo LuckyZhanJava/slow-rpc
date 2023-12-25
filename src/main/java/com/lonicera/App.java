@@ -1,5 +1,7 @@
 package com.lonicera;
 
+import com.lonicera.rpc.client.ClientOptions;
+import com.lonicera.rpc.client.RequestOptions;
 import com.lonicera.rpc.protocol.Protocol;
 import com.lonicera.rpc.protocol.http.HttpProtocol;
 import com.lonicera.rpc.proxy.RpcProxyFactory;
@@ -28,19 +30,28 @@ public class App {
     protocolList.add(new HttpProtocol());
     RpcProxyFactory proxyFactory = new RpcProxyFactory(protocolList);
 
-    Hello hello = proxyFactory.getProxy(Hello.class, "http://127.0.0.1:8910");
-    String hi = hello.hello();
+    Hello hello1 = proxyFactory.getProxy(Hello.class, "http://127.0.0.1:8910");
+    String hi = hello1.hello();
     System.out.println(hi);
-    String repeat = hello.repeat("repeat");
+    String repeat = hello1.repeat("repeat");
     System.out.println(repeat);
-    String concat = hello.concat("hello", "tomcat");
+    String concat = hello1.concat("hello", "tomcat");
     System.out.println(concat);
-    CompletableFuture<LocalDateTime> future = hello.future(LocalDateTime.now(), 30);
+    CompletableFuture<LocalDateTime> future = hello1.future(LocalDateTime.now(), 30);
     System.out.println(future.get());
 
-    String nullVal = hello.repeat(null);
+    String nullVal = hello1.repeat(null);
     System.out.println(nullVal);
-    hello.concat(null, null);
+    hello1.concat(null, null);
+
+    Hello hello2 = proxyFactory.getProxy(
+        Hello.class,
+        "http://placeholder",
+        new ClientOptions(),
+        new RequestOptions()
+    );
+
+
 
     rpcServer.shutdown();
   }

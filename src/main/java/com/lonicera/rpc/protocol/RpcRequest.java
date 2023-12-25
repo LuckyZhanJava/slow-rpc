@@ -1,6 +1,5 @@
 package com.lonicera.rpc.protocol;
 
-import io.netty.buffer.ByteBuf;
 import java.util.Map;
 
 public interface RpcRequest {
